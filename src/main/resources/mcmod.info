@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bte",
+  "name": "Back To Eco",
+  "description": "Lets make nature nature fun again!!",
+  "version": "",
+  "mcversion": "1.12.x",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tebreca", "Igrek", "xkjmaster_1x"],
+  "credits": "none",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
