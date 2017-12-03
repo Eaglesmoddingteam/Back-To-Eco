@@ -1,18 +1,20 @@
 package bte.init;
 
+import bte.main.Main;
+import bte.objects.blocks.BlockBase;
 import bte.objects.blocks.BlockBeeHive;
-import btf.main.Main;
-import btf.objects.blocks.BlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockInit {
 
-	public static BlockBase BeeHive = new BlockBeeHive("hivebees", Material.WOOD, CreativeTabs.BUILDING_BLOCKS);
+	public static BlockBeeHive BeeHive = new BlockBeeHive("hivebees", Material.WOOD, CreativeTabs.BUILDING_BLOCKS);
 	
 	public static Block[] BLOCKS = {
 			BeeHive
@@ -29,6 +31,7 @@ public class BlockInit {
 		}
 	}
 
+	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent registryEvent) {
 		for (Block block: BLOCKS)
 			Main.proxy.registerItemRenderer(Item.getItemFromBlock(block), 0, "inventory");

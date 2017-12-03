@@ -1,7 +1,6 @@
 package bte.objects.blocks;
 
 import bte.objects.blocks.tile.TileHive;
-import btf.objects.blocks.BlockBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
