@@ -13,16 +13,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class BlockGrowthGen extends BlockBase  {
+public class BlockGrowthGen extends BlockBase{
 
 	public BlockGrowthGen(String name, Material materialIn, CreativeTabs tab, int harvestlevel) {
 		super(name, materialIn, tab, harvestlevel);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public boolean hasTileEntity() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	
