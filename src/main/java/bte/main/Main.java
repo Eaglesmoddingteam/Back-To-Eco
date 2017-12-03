@@ -26,12 +26,12 @@ public class Main {
 	}
 	
 	@SubscribeEvent
-	public static void Init(FMLInitializationEvent event){
+	public static void init(FMLInitializationEvent event){
 		
 	}
 	
 	@SubscribeEvent
-	public static void PostInit(FMLPostInitializationEvent event){
+	public static void postInit(FMLPostInitializationEvent event){
 		
 	}
 }

@@ -4,26 +4,78 @@ import java.util.Random;
 
 import com.jcraft.jorbis.Block;
 
+import bte.objects.blocks.tile.container.ContainerHive;
 import bte.objects.items.bees.ItemBee;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 
 public class TileHive extends TileEntity implements ITickable{
-	public InventoryBasic hiveInv = new InventoryBasic(new TextComponentString("Hive"), 4);
-	public InventoryBasic output = new InventoryBasic(new TextComponentString("outputs"), 4);
 	int flowers = 0;
 	Item queen = null;
 	ItemStack[] bees = new ItemStack[3];
 	
 	private int ticksIn=0;
 	boolean outcome=false;
+	
+	public static final int SIZE = 9;
+
+    // This item handler will hold our nine inventory slots
+    private ItemStackHandler itemStackHandler = new ItemStackHandler(SIZE) {
+        @Override
+        protected void onContentsChanged(int slot) {
+           
+        }
+    };
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+        if (compound.hasKey("items")) {
+            itemStackHandler.deserializeNBT((NBTTagCompound) compound.getTag("items"));
+        }
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setTag("items", itemStackHandler.serializeNBT());
+        return compound;
+    }
+
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        // If we are too far away from this tile entity you cannot use it
+        return !isInvalid() && playerIn.getDistanceSq(pos.add(0.5D, 0.5D, 0.5D)) <= 64D;
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return true;
+        }
+        return super.hasCapability(capability, facing);
+    }
+
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemStackHandler);
+        }
+        return super.getCapability(capability, facing);
+    }
+
 
 	@Override
 	public void update() {
@@ -40,15 +92,13 @@ public class TileHive extends TileEntity implements ITickable{
 	            }
 	       
 	        } 
-	        outcome=initbees();
+	        outcome=true;
+		}
+		if(!outcome) {
+			//init recipes
 		}
 		if(isDone()) {
-			if(outcome) {
-				FinishRecipe();
-			} else {
-				flowers=0;
-				FinishRecipe();
-			}
+			ticksIn = -1;
 		}
 		ticksIn++;
 	}
@@ -60,60 +110,5 @@ public class TileHive extends TileEntity implements ITickable{
 	private boolean isDone() {
 		return getprogress() == 100;
 	}
-	
-	/**
-	 * Cleans up the Arrays to make room for a new batch of bees.
-	 * Also gets the outcome of the recipes and puts it into the output inv.
-	 * Gets called after the process is equal to 100.
-	 **/
-	public void FinishRecipe() {
-		ticksIn=-1;
-		for (int i=0;i<=bees.length;i++) {
-			bees[i] = null;
-		}
-		queen = null;
-		int i= 0;
-		for(ItemStack stack:getOutcomes()) {
-			output.setInventorySlotContents(i, stack);
-			i++;
-		}
-	}
-	
-	boolean initbees() {
-		for(int i = 0; i <= hiveInv.getSizeInventory(); i++) {
-			if (i == 0 && hiveInv.getStackInSlot(i).getItem() instanceof ItemBee) {
-				ItemBee casted = (ItemBee) hiveInv.getStackInSlot(i).getItem();
-				if(casted.isQueen()) {
-					queen=hiveInv.getStackInSlot(i).getItem();
-				}
-			} else if (hiveInv.getStackInSlot(i).getItem() instanceof ItemBee) {
-				if(queen==null) {
-				return false;
-				} else{
-					ItemBee beeIn = (ItemBee) hiveInv.getStackInSlot(i).getItem();
-					if(beeIn.isWorkerOf((ItemBee)this.queen)) {
-						bees[i-1]= new ItemStack(hiveInv.getStackInSlot(i).getItem());
-					}
-				}
-			}
-		}
-		return true;
-	}
-	Random rand = new Random();
-	
-	Item wax=null;
-	Item honey=null;
-	private ItemStack[] getOutcomes() {
-		ItemStack[] out= new ItemStack[] {
-				new ItemStack(wax, 1*flowers/10),
-				new ItemStack(honey, rand.nextInt(3)/3*flowers/10),
-				new ItemStack(((ItemBee) queen).getWorker(), rand.nextInt(19)/19*flowers/10)
-				};
-		return out;
-	}
-	
-	
-
-	
 
 }
