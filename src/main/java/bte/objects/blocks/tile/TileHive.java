@@ -110,5 +110,11 @@ public class TileHive extends TileEntity implements ITickable{
 	private boolean isDone() {
 		return getprogress() == 100;
 	}
+	
+	@Override
+	public void onChunkUnload() {
+		markDirty();
+		super.onChunkUnload();
+	}
 
 }

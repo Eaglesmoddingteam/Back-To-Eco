@@ -3,6 +3,7 @@ package bte.init;
 import bte.main.Main;
 import bte.objects.blocks.BlockBase;
 import bte.objects.blocks.BlockBeeHive;
+import bte.objects.blocks.BlockGPStorage;
 import bte.objects.blocks.BlockGrowthGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -15,13 +16,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockInit {
 	
-	
+	public static BlockGPStorage GrowthStorage = new BlockGPStorage("gpbattery", Material.ROCK, btf.main.Main.blocksTab, 2);
 	public static BlockGrowthGen GrowthGen = new BlockGrowthGen("growth_gen", Material.ROCK, btf.main.Main.blocksTab, 2);
 	public static BlockBeeHive BeeHive = new BlockBeeHive("hivebees", Material.WOOD, CreativeTabs.BUILDING_BLOCKS);
 	
 	public static Block[] BLOCKS = {
 			GrowthGen,
-			BeeHive
+			BeeHive,
+			GrowthStorage
 	};
 	
 	public static void register(IForgeRegistry<Block> registry) {
