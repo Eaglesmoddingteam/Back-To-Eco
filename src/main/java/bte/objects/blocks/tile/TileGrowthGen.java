@@ -36,6 +36,7 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 
 	@Override
 	public int extractGP(int maxExtract, boolean simulate) {
+		if(GPIn <= maxExtract)
 		if(maxExtract<=10) {
 			if(!simulate)
 			GPIn-=10;
@@ -45,6 +46,9 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 			GPIn-=maxExtract;
 			return maxExtract;
 		}
+		if(!simulate)
+		GPIn-=GPIn;
+		return GPIn;
 	}
 
 	@Override
@@ -86,7 +90,7 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 		} else {
 			extracted.put(scanning, 1);
 		}
-	} else if(world.getBlockState(scanning).getBlock() == Blocks.LOG || world.getBlockState(scanning).getBlock() == Blocks.LOG2) {
+	} else if(world.getBlockState(scanning).getBlock() == Blocks.LOG || world.getBlockState(scanning).getBlock() == Blocks.LOG2 ||  world.getBlockState(scanning).getBlock() == Blocks.AIR) {
 		if(extracted.containsKey(scanning)) {
 			extracted.remove(scanning);
 		}
@@ -97,10 +101,18 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 		for(IGrowthPotentialStorage output : outputs) {
 			if(output!=null) {				
 				if(!(output instanceof TilePylon)) {
+					if(GPIn > 10) {
 					GPIn-=output.receiveGP(10, false);
+					} else if (GPIn > 0 ){
+					GPIn-=output.receiveGP(GPIn, false);
+					}
 				} else {
 					TilePylon out = (TilePylon) output;
-					GPIn-=out.sendGP(10);
+					if(GPIn > 10) {
+						GPIn-=out.sendGP(10);
+						} else {
+							GPIn-=GPIn-=out.sendGP(GPIn);
+						}
 				}
 			}
 	}

@@ -1,11 +1,21 @@
 package bte.util.helpers;
 
 import bte.main.Vars;
+import net.minecraft.util.ResourceLocation;
 
 public class StringHelper {
 
 	/**
-	 * gets string for resourcelocation
+	 * GetResourcelocation
+	 * @param params
+	 * @return
+	 */
+	public static ResourceLocation GR(String params) {
+		return new ResourceLocation(Vars.MOD_ID + ":" + params);
+	}
+	
+	/**
+	 * GetResourcelocationString
 	 * @param params
 	 * @return
 	 */

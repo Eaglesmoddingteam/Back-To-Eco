@@ -49,15 +49,11 @@ public class BlockGrowthGen extends BlockBase implements ITileEntityProvider{
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		TileEntity owned = world.getTileEntity(pos);
-		if(world.getBlockState(neighbor).getBlock() != Blocks.AIR && world.getBlockState(neighbor).getBlock() instanceof ITileEntityProvider) {
 		TileEntity neigbour = world.getTileEntity(neighbor);
-		if(neighbor != null) {
 			if(owned instanceof TileGrowthGen && neigbour instanceof IGrowthPotentialStorage) {
 				TileGrowthGen TEIn = (TileGrowthGen) owned;
 				TEIn.setOutput((IGrowthPotentialStorage)neigbour, MathHelper.GBFO(pos, neighbor));
 			}
-		}
-		}
 		super.onNeighborChange(world, pos, neighbor);
 	}
 

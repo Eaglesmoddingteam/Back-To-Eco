@@ -1,6 +1,7 @@
 package bte.main;
 
 import bte.proxy.Server;
+import bte.util.handlers.RegistryHandler;
 import btf.init.FurnaceRecipeInit;
 import btf.util.registry.FurnaceRegisty;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -22,7 +23,7 @@ public class Main {
 
 	@SubscribeEvent
 	public static void preInit(FMLPreInitializationEvent event){
-		
+		RegistryHandler.preInitRegistries();
 	}
 	
 	@SubscribeEvent

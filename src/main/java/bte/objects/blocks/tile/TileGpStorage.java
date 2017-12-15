@@ -18,7 +18,7 @@ public class TileGpStorage extends TileEntity implements IGrowthPotentialStorage
 	@Override
 	public int receiveGP(int maxReceive, boolean simulate) {
 		if(!(GPIn + maxReceive > getGPCapacity())) {
-		if(maxReceive<=10) {
+		if(maxReceive>=10) {
 			if(!simulate)
 			GPIn+=10;
 			return 10;

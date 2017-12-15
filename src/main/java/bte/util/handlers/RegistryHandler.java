@@ -1,15 +1,11 @@
 package bte.util.handlers;
 
-
-
-
-
 import bte.init.BlockInit;
-
+import bte.init.EntityInit;
 import bte.init.ItemInit;
 
 import net.minecraft.block.Block;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -50,6 +46,10 @@ public class RegistryHandler {
 	public static void onModelRegister(ModelRegistryEvent event) {
 		ItemInit.registerModels(event);
 		BlockInit.registerModels(event);
+	}
+	
+	public static void preInitRegistries() {
+		EntityInit.registerEntities();
 	}
 
 }

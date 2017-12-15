@@ -2,9 +2,10 @@ package bte.init;
 
 import bte.main.Main;
 import bte.objects.blocks.BlockBase;
-import bte.objects.blocks.BlockBeeHive;
 import bte.objects.blocks.BlockGPStorage;
 import bte.objects.blocks.BlockGrowthGen;
+import bte.objects.blocks.BlockPylon;
+import bte.util.GrPUtil.GrPConductHelper.PylonTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,14 +17,16 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockInit {
 	
+	public static BlockPylon pylon1 = new BlockPylon("terrallic_pylon", Material.ROCK, btf.main.Main.blocksTab, 2, PylonTypes.TERRALIC);
+	public static BlockPylon joint = new BlockPylon("joint_pylon", Material.ROCK, btf.main.Main.blocksTab, 2, PylonTypes.JOINT);
 	public static BlockGPStorage GrowthStorage = new BlockGPStorage("gpbattery", Material.ROCK, btf.main.Main.blocksTab, 2);
 	public static BlockGrowthGen GrowthGen = new BlockGrowthGen("growth_gen", Material.ROCK, btf.main.Main.blocksTab, 2);
-	public static BlockBeeHive BeeHive = new BlockBeeHive("hivebees", Material.WOOD, CreativeTabs.BUILDING_BLOCKS);
 	
 	public static Block[] BLOCKS = {
 			GrowthGen,
-			BeeHive,
-			GrowthStorage
+			GrowthStorage,
+			pylon1,
+			joint
 	};
 	
 	public static void register(IForgeRegistry<Block> registry) {
