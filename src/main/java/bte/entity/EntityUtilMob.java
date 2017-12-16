@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTable;
 
 public abstract class EntityUtilMob extends EntityCreature {
+	
+	public int food = 0;
 	public final ResourceLocation LOOT = getLootTableLocation();
 
 	public EntityUtilMob(World worldIn) {
@@ -42,7 +44,7 @@ public abstract class EntityUtilMob extends EntityCreature {
 		super.initEntityAI();
 	}
 	
-
+	
 	
 	@Nullable
 	@Override
@@ -60,4 +62,8 @@ public abstract class EntityUtilMob extends EntityCreature {
     protected boolean canDespawn() {
     	return false;
     }
+
+	public int getFood() {
+		return food;
+	}
 }
