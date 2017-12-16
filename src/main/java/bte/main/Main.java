@@ -28,7 +28,7 @@ public class Main {
 	
 	@SubscribeEvent
 	public static void init(FMLInitializationEvent event){
-		
+
 	}
 	
 	@SubscribeEvent
