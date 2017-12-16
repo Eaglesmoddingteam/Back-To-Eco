@@ -15,9 +15,9 @@ import net.minecraft.world.storage.loot.LootTable;
 
 public abstract class EntityUtilMob extends EntityCreature {
 	public final ResourceLocation LOOT = getLootTableLocation();
+
 	public EntityUtilMob(World worldIn) {
 		super(worldIn);
-		// TODO Auto-generated constructor stub
 	}
 	
 	protected abstract ResourceLocation getLootTableLocation();
@@ -29,7 +29,7 @@ public abstract class EntityUtilMob extends EntityCreature {
 	
 	@Override
 	public boolean getCanSpawnHere() {
-		return false;
+		return super.getCanSpawnHere();
 	}
 	
 	@Override
@@ -39,12 +39,10 @@ public abstract class EntityUtilMob extends EntityCreature {
 	
 	@Override
 	protected void initEntityAI() {
-		
+		super.initEntityAI();
 	}
 	
-	protected void applyEntityAI() {
-		
-    }
+
 	
 	@Nullable
 	@Override
@@ -55,7 +53,7 @@ public abstract class EntityUtilMob extends EntityCreature {
 
     @Override
     public int getMaxSpawnedInChunk() {
-        return 0;
+        return super.getMaxSpawnedInChunk();
     }
     
     @Override

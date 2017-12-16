@@ -6,6 +6,7 @@ import bte.objects.blocks.tile.TileGrowthGen;
 import bte.objects.blocks.tile.TileHive;
 import bte.util.helpers.StringHelper;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class Server {
@@ -18,5 +19,9 @@ public class Server {
 		GameRegistry.registerTileEntity(TileHive.class, StringHelper.GRS("tilehive"));
 		GameRegistry.registerTileEntity(TileGrowthGen.class, StringHelper.GRS("tilegpgen"));
 		GameRegistry.registerTileEntity(TileGpStorage.class, StringHelper.GRS("grpbattery"));
+	}
+
+	public void preInit(FMLPreInitializationEvent event) {
+
 	}
 }

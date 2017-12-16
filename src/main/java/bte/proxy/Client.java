@@ -1,13 +1,21 @@
 package bte.proxy;
 
+import bte.init.EntityInit;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class Client extends Server{
 
 	@Override
 	public void registerItemRenderer(Item item, int meta, String ID) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), ID));
+	}
+
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		EntityInit.initModels();
 	}
 }

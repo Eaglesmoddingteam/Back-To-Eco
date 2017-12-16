@@ -1,6 +1,7 @@
 package bte.client.models;
 
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
@@ -8,7 +9,7 @@ import net.minecraft.entity.Entity;
  * Infernal Blacksmith - Igrek02
  * Created using Tabula 6.0.0
  */
-public class InfernalBlacksmith extends ModelBase {
+public class InfernalBlacksmith extends ModelBiped {
     public ModelRenderer Body;
     public ModelRenderer leg1;
     public ModelRenderer leg2;
@@ -140,5 +141,10 @@ public class InfernalBlacksmith extends ModelBase {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
+    }
+
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
     }
 }

@@ -47,9 +47,4 @@ public class RegistryHandler {
 		ItemInit.registerModels(event);
 		BlockInit.registerModels(event);
 	}
-	
-	public static void preInitRegistries() {
-		EntityInit.registerEntities();
-	}
-
 }

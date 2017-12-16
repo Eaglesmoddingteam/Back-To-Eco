@@ -1,5 +1,6 @@
 package bte.main;
 
+import bte.init.EntityInit;
 import bte.proxy.Server;
 import bte.util.handlers.RegistryHandler;
 import btf.init.FurnaceRecipeInit;
@@ -21,17 +22,18 @@ public class Main {
 	@SidedProxy(clientSide = "bte.proxy.Client", serverSide = "bte.proxy.Server")
 	public static Server proxy;
 
-	@SubscribeEvent
+	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
-		RegistryHandler.preInitRegistries();
+		EntityInit.registerEntities();
+		proxy.preInit(event);
 	}
 	
-	@SubscribeEvent
+	@Mod.EventHandler
 	public static void init(FMLInitializationEvent event){
 
 	}
 	
-	@SubscribeEvent
+	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
 		
 	}
