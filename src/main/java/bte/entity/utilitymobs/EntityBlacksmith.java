@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityBlacksmith extends EntityUtilMob {
+	public int FoodIn;
 	BlockPos homeNest;
 	
 	public EntityBlacksmith(World worldIn, BlockPos nest) {
