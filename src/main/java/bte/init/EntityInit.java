@@ -6,6 +6,7 @@ import bte.main.Main;
 import bte.main.Vars;
 import bte.util.helpers.StringHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityTracker;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
