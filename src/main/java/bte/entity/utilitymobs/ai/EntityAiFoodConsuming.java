@@ -28,9 +28,15 @@ public class EntityAiFoodConsuming extends EntityAIBase{
 	
 	@Override
 	public boolean shouldExecute() {
-		if(utilMobIn.getFood() < 20)
+		if(utilMobIn.getFood() == 0)
 			return true;
 		return false;
+	}
+	
+	@Override
+	public void startExecuting() {
+		
+		super.startExecuting();
 	}
 
 }
