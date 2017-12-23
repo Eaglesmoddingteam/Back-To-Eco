@@ -2,6 +2,7 @@ package bte.main;
 
 import bte.init.EntityInit;
 import bte.proxy.Server;
+import bte.util.entityhelper.BurnHelper;
 import bte.util.handlers.RegistryHandler;
 import btf.init.FurnaceRecipeInit;
 import btf.util.registry.FurnaceRegisty;
@@ -35,6 +36,6 @@ public class Main {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
-		
+		BurnHelper.InitRecipes();
 	}
 }
