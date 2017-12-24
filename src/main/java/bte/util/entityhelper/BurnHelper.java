@@ -1,6 +1,7 @@
 package bte.util.entityhelper;
 
 import java.util.Map;
+import java.util.Random;
 
 import akka.actor.IndirectActorProducer;
 import net.minecraft.entity.item.EntityItem;
@@ -15,21 +16,19 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistry;
 
 public class BurnHelper {
+	static Random rand = new Random();
 	
-	static Map<ItemStack, ItemStack> recipes;
-	
-	public static void InitRecipes() {
-	recipes = FurnaceRecipes.instance().getSmeltingList();	
-	}
 	
 	public static EntityItem burn(ItemStack input, double x, double y, double z, World world) {
-		if(recipes.containsKey(input)) {
-			ItemStack out = recipes.get(input);
-			out.setCount(out.getCount() + (int)((Math.random() * 2) * out.getCount() + 1));
+			ItemStack dummy = input.copy();
+			dummy.setCount(1);
+			ItemStack out = FurnaceRecipes.instance().getSmeltingResult(dummy);
+			if(!out.isEmpty()) {
+			out.setCount(input.getCount() + rand.nextInt(2));
 			EntityItem output = new EntityItem(world, x, y, z, out);
 			return output;
-		}
-		return null;
+			}
+			return null;
 	}
 	
 }

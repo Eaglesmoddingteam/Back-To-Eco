@@ -4,11 +4,12 @@ import java.util.List;
 
 import bte.entity.EntityUtilMob;
 import bte.util.entityhelper.BurnHelper;
-import btf.main.Main;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
@@ -35,13 +36,13 @@ public class EntityAIBurn extends EntityAIBase {
 	
 	@Override
 	public void startExecuting() {
-		Main.LOGGER.warn("Burned Yes Baby");
-		List<EntityItem> near = creatureIn.world.getEntitiesWithinAABB(EntityItem.class, creatureIn.getEntityBoundingBox().expand(4, 1, 4));
+		List<EntityItem> near = creatureIn.world.getEntitiesWithinAABB(EntityItem.class, creatureIn.getEntityBoundingBox().expand(8, 3, 8));
 		for (EntityItem item : near) {
 			EntityItem item2 = BurnHelper.burn(item.getItem(), item.posX, item.posY, item.posZ, item.world);
 			if(item2 != null) {
 			item.world.spawnEntity(item2);
-			item.world.spawnParticle(EnumParticleTypes.FLAME, creatureIn.posX, creatureIn.posY, creatureIn.posZ, 1, 1, 1);
+			item.world.spawnParticle(EnumParticleTypes.FLAME, true, item.posX, item.posY, item.posZ, 0.5, 0.5, 0.5);
+			item.world.playSound(item.posX, item.posY, item.posZ, SoundEvents.ENTITY_ENDERDRAGON_FIREBALL_EPLD, SoundCategory.NEUTRAL, 1, -1, false);
 			item.setDead();
 			}
 		}

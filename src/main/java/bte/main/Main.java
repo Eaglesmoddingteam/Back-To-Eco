@@ -36,6 +36,6 @@ public class Main {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
-		BurnHelper.InitRecipes();
+
 	}
 }
