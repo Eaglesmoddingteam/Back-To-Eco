@@ -41,8 +41,10 @@ public class EntityAIBurn extends EntityAIBase {
 			EntityItem item2 = BurnHelper.burn(item.getItem(), item.posX, item.posY, item.posZ, item.world);
 			if(item2 != null) {
 			item.world.spawnEntity(item2);
+			if(item.world.isRemote) {
 			item.world.spawnParticle(EnumParticleTypes.FLAME, true, item.posX, item.posY, item.posZ, 0.5, 0.5, 0.5);
-			item.world.playSound(item.posX, item.posY, item.posZ, SoundEvents.ENTITY_ENDERDRAGON_FIREBALL_EPLD, SoundCategory.NEUTRAL, 1, -1, false);
+			item.world.playSound(item.posX, item.posY, item.posZ, SoundEvents.ENTITY_BLAZE_BURN, SoundCategory.MASTER, 10f, 1f, false);
+			}
 			item.setDead();
 			}
 		}
