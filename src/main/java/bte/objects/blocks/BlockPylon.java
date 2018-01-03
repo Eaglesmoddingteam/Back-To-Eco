@@ -3,6 +3,7 @@ package bte.objects.blocks;
 import bte.objects.blocks.tile.TilePylon;
 import bte.util.GrPUtil.GrPConductHelper.PylonTypes;
 import btf.init.ItemInit;
+import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -36,6 +37,20 @@ public class BlockPylon extends BlockBase implements ITileEntityProvider{
 	}
 	
 	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		switch(typeIn) {
+		case CELESTIAL:
+		case NAZZU:
+		case TERRALIC:
+			TilePylon tile = (TilePylon) worldIn.getTileEntity(pos);
+			break;
+		default:
+			break;	
+		}
+		super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+	}
+	
+	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack stack = playerIn.getActiveItemStack();
@@ -57,7 +72,9 @@ public class BlockPylon extends BlockBase implements ITileEntityProvider{
 			TilePylon tileEntitySaved = (TilePylon) worldIn.getTileEntity(saved);
 			TilePylon tileIn = (TilePylon) worldIn.getTileEntity(pos);
 			tileEntitySaved.connect(tileIn, playerIn);
-			compound.removeTag("x");compound.removeTag("y");compound.removeTag("z");
+			compound.removeTag("x");
+			compound.removeTag("y");
+			compound.removeTag("z");
 			}
 		}
 		}

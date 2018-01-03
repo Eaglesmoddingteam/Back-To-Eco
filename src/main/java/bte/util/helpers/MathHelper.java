@@ -6,6 +6,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class MathHelper {
+	public static final MathHelper INSTANCE = new MathHelper();
+	
+	
 	/**
  	* Get Positive Outcome Int 
  	* @param numbers input of numbers you want to get added to the sum, can be negative or positive, negative numbers will get transfered to positive ones.
@@ -65,5 +68,31 @@ public class MathHelper {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * CreateVectorArray
+	 * @param pos
+	 * @return A int array including the positions of the blockpos
+	 */
+	public static int[] CVA(BlockPos pos) {
+		if(!(pos != null)) {
+			return new int[]{0,0,0};
+		}
+		int[] CACHE = new int[] {
+			pos.getX(),
+			pos.getY(),
+			pos.getZ()
+		};
+		return CACHE;
+	}
+	
+	/**
+	 * GetBlockposfromVectorArray
+	 * @param coords <b>3</b> is the <u>max</u> amount of parameters
+	 * @return blockpos from the int array
+	 */
+	public static BlockPos GBVA(int[] coords) {
+		return new BlockPos(coords[0], coords[1], coords[2]);
 	}
 }

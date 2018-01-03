@@ -2,7 +2,9 @@ package bte.objects.blocks;
 
 import bte.objects.blocks.tile.TileGrowthGen;
 import bte.util.helpers.MathHelper;
+import btf.util.energy.CapabilityGrowthPotential;
 import btf.util.energy.IGrowthPotentialStorage;
+import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +23,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 
 public class BlockGrowthGen extends BlockBase implements ITileEntityProvider{
-
+	MathHelper mh = MathHelper.INSTANCE;
+	
 	public BlockGrowthGen(String name, Material materialIn, CreativeTabs tab, int harvestlevel) {
 		super(name, materialIn, tab, harvestlevel);
 	}
@@ -29,11 +32,26 @@ public class BlockGrowthGen extends BlockBase implements ITileEntityProvider{
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.getTileEntity(pos) instanceof IGrowthPotentialStorage) {
-		 IGrowthPotentialStorage tile =(IGrowthPotentialStorage) worldIn.getTileEntity(pos);
-		 playerIn.sendStatusMessage(new TextComponentString("Gp stored = " + tile.getGPStored()), true);
-		}
+		TileGrowthGen tile = (TileGrowthGen) worldIn.getTileEntity(pos);
+		playerIn.sendStatusMessage(new TextComponentString("You have "+ tile.GPIn() + " GrP stored"), true);
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+	}
+
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		if(worldIn.getBlockState(fromPos).getBlock().hasTileEntity(worldIn.getBlockState(fromPos))) {
+			TileEntity TE = worldIn.getTileEntity(fromPos);
+			if(TE.hasCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null)) {
+				TileGrowthGen owned = (TileGrowthGen) worldIn.getTileEntity(pos);
+				owned.setOutput(TE, mh.GBFO(pos, fromPos));
+			}
+		}
+		super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+	}
+	
+	@Override
+	public boolean hasTileEntity() {
+		return true;
 	}
 	
 	@Override
@@ -44,17 +62,6 @@ public class BlockGrowthGen extends BlockBase implements ITileEntityProvider{
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileGrowthGen();
-	}
-	
-	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		TileEntity owned = world.getTileEntity(pos);
-		TileEntity neigbour = world.getTileEntity(neighbor);
-			if(owned instanceof TileGrowthGen && neigbour instanceof IGrowthPotentialStorage) {
-				TileGrowthGen TEIn = (TileGrowthGen) owned;
-				TEIn.setOutput((IGrowthPotentialStorage)neigbour, MathHelper.GBFO(pos, neighbor));
-			}
-		super.onNeighborChange(world, pos, neighbor);
 	}
 
 }

@@ -2,26 +2,72 @@ package bte.objects.blocks.tile;
 
 import java.util.HashMap;
 
+import bte.util.helpers.MathHelper;
+import btf.util.energy.CapabilityGrowthPotential;
+import btf.util.energy.GrowthPotentialStorage;
 import btf.util.energy.IGrowthPotentialStorage;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraftforge.common.capabilities.Capability;
 
-public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage, ITickable {
+public class TileGrowthGen extends TileEntity implements ITickable {
+	MathHelper mh = MathHelper.INSTANCE;
+	IGrowthPotentialStorage out;
 	boolean initialized = false;
-	int GPIn = 0;
 	int X=0;
 	int Z=0;
 	int startX=pos.getX();
 	int y=pos.getY();
 	int startZ=pos.getZ();
 	BlockPos scanning;
-	IGrowthPotentialStorage[] outputs = new IGrowthPotentialStorage[2];
+	TileEntity[] outputs = new TileEntity[2];
 	HashMap<BlockPos, Integer> extracted = new HashMap<BlockPos, Integer>();
+	GrowthPotentialStorage storage;
+	
+	Capability<IGrowthPotentialStorage> capability = CapabilityGrowthPotential.GROWTHPOTENTIAL;
+	
+	public TileGrowthGen() {
+		storage  = new GrowthPotentialStorage(60, 1, 10, 0);
+	}
+	
+	public int GPIn() {
+		return storage.getGPStored();
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setInteger("gp", GPIn());
+			if(outputs[0] != null)
+			compound.setIntArray("up", mh.CVA(outputs[0].getPos()));
+			if(outputs[1] != null)
+			compound.setIntArray("down", mh.CVA(outputs[1].getPos()));
+		return super.writeToNBT(compound);
+	}
+	
+	void readIntVectorArray(int[] array, String type){
+		switch(type) {
+		case "d":
+			outputs[1] = world.getTileEntity(mh.GBVA(array));
+			break;
+		case "u":
+			outputs[0] = world.getTileEntity(mh.GBVA(array));
+			break;
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		storage = new GrowthPotentialStorage(60, 1, 10, compound.getInteger("gp"));
+		readIntVectorArray(compound.getIntArray("up"), "u");
+		readIntVectorArray(compound.getIntArray("down"), "d");
+		super.readFromNBT(compound);
+	}
 	
 	private void init(){
 		initialized = true;
@@ -29,48 +75,7 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 		startZ=pos.getZ() - 1;
 		y=pos.getY();
 	}
-	@Override
-	public int receiveGP(int maxReceive, boolean simulate) {
-		return 0;
-	}
-
-	@Override
-	public int extractGP(int maxExtract, boolean simulate) {
-		if(GPIn <= maxExtract)
-		if(maxExtract<=10) {
-			if(!simulate)
-			GPIn-=10;
-			return 10;
-		}else{
-			if(!simulate)
-			GPIn-=maxExtract;
-			return maxExtract;
-		}
-		if(!simulate)
-		GPIn-=GPIn;
-		return GPIn;
-	}
-
-	@Override
-	public int getGPStored() {
-		return GPIn;
-	}
-
-	@Override
-	public int getGPCapacity() {
-		return 20;
-	}
-
-	@Override
-	public boolean canExtract() {
-		return true;
-	}
-
-	@Override
-	public boolean canReceive() {
-		return false;
-	}
-
+	
 	@Override
 	public void update() {
 	if(!initialized) {
@@ -79,7 +84,7 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 	if(!isFull()) {
 	scanning = new BlockPos(startX+X, y, startZ+Z);
 	if(world.getBlockState(scanning).getBlock() == Blocks.SAPLING) {
-		GPIn++;
+		storage.receiveGP(1, false);
 		if(extracted.containsKey(scanning)) {
 			extracted.replace(scanning, extracted.get(scanning)+1);
 			world.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, scanning.getX(), scanning.getY(), scanning.getZ(), 2, 2, 2, 1,1);
@@ -97,21 +102,23 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 	}
 	
 	}
-		//moves GrowthPotential to the 2 blocks at the top and the bottom
-		for(IGrowthPotentialStorage output : outputs) {
-			if(output!=null) {				
+		//moves GrowthPotential to the 2 blocks at the top and the bottom 
+		for(TileEntity output : outputs) {
+			if(output!=null) {
+				if(output.hasCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null))
+					out = output.getCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null);
 				if(!(output instanceof TilePylon)) {
-					if(GPIn > 10) {
-					GPIn-=output.receiveGP(10, false);
-					} else if (GPIn > 0 ){
-					GPIn-=output.receiveGP(GPIn, false);
+					if(GPIn() > 10) {
+					 storage.extractGP(out.receiveGP(10, false), false);
+					} else if (GPIn() > 0 ){
+					 storage.extractGP(out.receiveGP(GPIn(), false), false);
 					}
 				} else {
 					TilePylon out = (TilePylon) output;
-					if(GPIn > 10) {
-						GPIn-=out.sendGP(10);
+					if(GPIn() > 10) {
+						 //TODO -10 GPIn-=out.sendGP(10);
 						} else {
-							GPIn-=GPIn-=out.sendGP(GPIn);
+							//TODO -GPIn GPIn-=GPIn-=out.sendGP(GPIn);
 						}
 				}
 			}
@@ -126,10 +133,10 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 	}
 
 	private boolean isFull() {
-		return GPIn == 20;
+		return GPIn() == 20;
 	}
 
-	public void setOutput(IGrowthPotentialStorage outputs, EnumFacing blockFacingFromTEPos) {
+	public void setOutput(TileEntity outputs, EnumFacing blockFacingFromTEPos) throws IllegalArgumentException{
 		switch(blockFacingFromTEPos){
 		default:
 			throw new IllegalArgumentException("Only Facing Down and Up Accepted");
@@ -143,10 +150,14 @@ public class TileGrowthGen extends TileEntity implements IGrowthPotentialStorage
 	}
 	
 	@Override
-	public void onChunkUnload() {
-		markDirty();
-		super.onChunkUnload();
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability == this.capability;
 	}
 	
+	@Override
+	public void onChunkUnload() {
+		this.markDirty();
+		super.onChunkUnload();
+	}
 
 }

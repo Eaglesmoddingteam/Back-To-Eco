@@ -1,139 +1,81 @@
 package bte.objects.blocks.tile;
 
-import com.mojang.text2speech.NarratorOSX;
+import com.google.common.collect.ComputationException;
 
 import bte.util.GrPUtil.GrPConductHelper.PylonTypes;
 import bte.util.helpers.MathHelper;
+import btf.util.energy.CapabilityGrowthPotential;
 import btf.util.energy.IGrowthPotentialStorage;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 
-public class TilePylon extends TileEntity implements IGrowthPotentialStorage{
-	private PylonTypes typePylon;
-	int maxTransferRate=0;
-	boolean isJoint = false;
-	TilePylon nextPylon;
-	IGrowthPotentialStorage output=null;
+public class TilePylon extends TileEntity{
+	MathHelper mh = MathHelper.INSTANCE;
+	PylonTypes typeIn;
+	boolean isOutput = true;
+	TilePylon next;
+	IGrowthPotentialStorage output;
+	TileEntity outputte;
 	
-	public TilePylon(PylonTypes typePylon) {
-		this.typePylon=typePylon;
-		init();
-	}
-	
-	public void connect(TilePylon TileIn, EntityPlayer connector) {
-		if(MathHelper.GPUI((pos.getX() - TileIn.pos.getX()), pos.getZ()-TileIn.pos.getZ()) > 20) {
-		//errors
-		} else if (MathHelper.GPUI((pos.getX() - TileIn.pos.getX()), pos.getZ()-TileIn.pos.getZ()) <=0){
-		//errors
-		} else {
-			this.nextPylon = TileIn;
-		}
-	}
-	
-	private void init() {
-		switch(typePylon) {
-		case CELESTIAL:
-			maxTransferRate=30;
-			break;
-		case JOINT:
-			isJoint = true;
-			maxTransferRate=0;
-			break;
-		case NAZZU:
-			maxTransferRate=30;
-			break;
-		case TERRALIC:
-			maxTransferRate=30;
-			break;
-		}
+	public TilePylon(PylonTypes type) {
+		if(type == PylonTypes.JOINT)
+			isOutput = false;
+		this.typeIn = type;
 		
-		if(typePylon != PylonTypes.JOINT) {
-			TileEntity TileEntityOn = world.getTileEntity(new BlockPos(pos.getX(), pos.getY()-1, pos.getZ()));
-			if(TileEntityOn instanceof IGrowthPotentialStorage) {
-				IGrowthPotentialStorage output = (IGrowthPotentialStorage) TileEntityOn;
-				this.output = output;
+		if(world.getTileEntity(pos.add(0, -1, 0)) != null ){
+			TileEntity te = world.getTileEntity(pos.add(0, -1, 0));
+			if(te.hasCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null)) {
+				this.output = te.getCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null);
+				this.outputte = te;
 			}
 		}
 	}
 	
-	public boolean fireToNext(int amount) {
-		if (nextPylon != null)
-		if(nextPylon.isJoint) {
-		return nextPylon.fireToNext(amount);
-		} else {
-		return false;	
-		}
-		return false;
+	public void connect(TilePylon next, EntityPlayer playerIn) {
+		this.isOutput = false;
+		this.next = next;
 	}
 	
-	public boolean AcceptGP(int amount) {
+	public int fire(int amount) {
+		if(next.isOutput) {
+			return next.insert(amount);
+		}
+		return next.fire(amount);
+	}
+	
+	private int insert(int amount) {
 		if(output != null) {
-		if(output.canReceive()) {
-			if(output.receiveGP(amount, true) <= amount) {
-				output.receiveGP(amount, false);
-				return true;
-			}
-		}
-		}
-		return false;
-	}
-	
-	public int sendGP(int amount) {
-		if(amount > maxTransferRate) {
-			amount = maxTransferRate;
-		}
-		for(int i = amount; i >= 0; i--){
-			if(nextPylon != null) {
-				if(nextPylon.isJoint) {
-					if (nextPylon.fireToNext(i)) {
-						return i;
-					}
-					} else {	
-						if (nextPylon.AcceptGP(i)) {
-							return i;
-						}
-					}
-			}
+			return output.receiveGP(amount, false);
 		}
 		return 0;
 	}
-
-	
-	/*
-	 * This class simulates the Growth Potential Storage
-	 * The methods are implemented to fit the capatablity system
-	 */
-	
-	
 	
 	@Override
-	public int receiveGP(int maxReceive, boolean simulate) {
-		return 0;
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setBoolean("isOutPut", isOutput);
+		if(!isOutput)
+		compound.setIntArray("next", mh.CVA(next.pos));
+		if(isOutput)
+		compound.setIntArray("output", mh.CVA(outputte.getPos()));
+		return super.writeToNBT(compound);
 	}
-
+	
 	@Override
-	public int extractGP(int maxExtract, boolean simulate) {
-		return 0;
+	public void readFromNBT(NBTTagCompound compound) {
+		this.isOutput = compound.getBoolean("isOutPut");
+		if(!isOutput)
+		next = (TilePylon) world.getTileEntity(mh.GBVA(compound.getIntArray("next")));
+		if(isOutput)
+		outputte = world.getTileEntity(mh.GBVA(compound.getIntArray("output")));
+		output = outputte.getCapability(CapabilityGrowthPotential.GROWTHPOTENTIAL, null);
+		super.readFromNBT(compound);
 	}
-
+	
 	@Override
-	public int getGPStored() {
-		return 0;
+	public void onChunkUnload() {
+		this.markDirty();
+		super.onChunkUnload();
 	}
-
-	@Override
-	public int getGPCapacity() {
-		return 0;
-	}
-
-	@Override
-	public boolean canExtract() {
-		return false;
-	}
-
-	@Override
-	public boolean canReceive() {
-		return false;
-	}
+	
 }
