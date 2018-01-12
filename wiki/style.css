@@ -1,0 +1,75 @@
+
+.topelement {
+    border-radius: 20px;
+    display: inline-block;
+    background-color: greenyellow;
+     padding-top: 8px;
+     padding-left: 10px;
+     padding-right: 10px;
+     margin-left: 3px;
+    padding-bottom: 8px;
+    margin-bottom: 0;
+    margin-top: 0
+}
+#logo{
+    position: absolute;
+    top: 7px;
+    left: 3% ;
+}
+
+#topbar{
+}
+
+#topdiv{
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+    background-color: limegreen;
+}
+
+head{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+
+.link {
+text-decoration: none;
+color: black;
+}
+
+#content{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    opacity: 0.98;
+    margin: 0;
+    padding: 0;
+    margin-left: 8%;
+    width: 89%;
+    margin-top: 2%;
+    height: 3%;
+    margin-bottom: 2%;
+    overflow: auto;
+}
+
+body{
+    background-image: url('img/landscape.png');
+}
+
+#mainpage{
+                margin-left: 7%;
+}
+
+.contentlist {
+    display: inline-block;
+}
