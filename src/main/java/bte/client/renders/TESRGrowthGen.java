@@ -3,6 +3,7 @@ package bte.client.renders;
 import bte.client.models.GrowthGenerator;
 import bte.objects.blocks.tile.TileGrowthGen;
 import bte.util.helpers.StringHelper;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
 public class TESRGrowthGen extends TileEntitySpecialRenderer<TileGrowthGen> {
