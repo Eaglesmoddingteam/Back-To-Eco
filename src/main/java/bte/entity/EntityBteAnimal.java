@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -19,7 +22,7 @@ public abstract class EntityBteAnimal<T extends EntityAgeable> extends EntityAni
 			BIOMESIN.add(b);
 		}
 	}
-
+	
 	public abstract boolean canBeRidden();
 
 	@Override

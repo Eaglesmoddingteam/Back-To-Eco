@@ -36,7 +36,7 @@ public class AnimalHorseshoeCrab extends EntityBteAnimal<AnimalHorseshoeCrab> {
 		a.posX = this.posX;
 		a.posY = this.posY;
 		a.posZ = this.posZ;
-		a.setGrowingAge(-200);
+		a.setGrowingAge(-2000);
 		return a;
 	}
 

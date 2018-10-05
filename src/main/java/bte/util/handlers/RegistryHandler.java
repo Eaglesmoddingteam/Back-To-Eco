@@ -16,13 +16,9 @@ import net.minecraftforge.fml.common.Mod;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-
-
 @Mod.EventBusSubscriber
 
 public class RegistryHandler {
-
-
 
 	@SubscribeEvent
 
@@ -31,15 +27,11 @@ public class RegistryHandler {
 		BlockInit.registerItemBlocks(event.getRegistry());
 	}
 
-
-
 	@SubscribeEvent
 
 	public static void onBlockRegister(RegistryEvent.Register<Block> event) {
 		BlockInit.register(event.getRegistry());
 	}
-
-
 
 	@SubscribeEvent
 
