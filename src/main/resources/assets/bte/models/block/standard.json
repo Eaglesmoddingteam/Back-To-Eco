@@ -1,0 +1,16 @@
+{
+    "parent":"block/cube_all",
+    "textures":{
+        "all":"bte:loc",
+        "down":"bte:loc",
+        "up":"bte:loc",
+        "east":"bte:loc",
+        "west":"bte:loc",
+        "north":"bte:loc",
+        "south":"bte:loc",
+        "side":"bte:loc",
+        "end":"bte:loc",
+        "particle":"bte:loc"
+    }
+
+}

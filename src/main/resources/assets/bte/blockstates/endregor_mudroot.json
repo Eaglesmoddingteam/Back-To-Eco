@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures" : {
+            "cross":"bte:plants/endregor_mudroot"
+        },
+        "model": "cross"
+    },
+    "variants": {
+        "normal": [{ 
+        }]
+    }
+}

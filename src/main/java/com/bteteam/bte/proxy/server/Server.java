@@ -20,11 +20,6 @@ public class Server implements Proxy {
 	}
 
 	@Override
-	public void registerItemRenderer(Item[] items, String ID) {
-
-	}
-
-	@Override
 	public void registerTileEntities() {
 
 	}

@@ -2,7 +2,10 @@ package com.bteteam.bte.proxy.client;
 
 import com.bteteam.bte.Proxy;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class Client implements Proxy {
@@ -15,12 +18,7 @@ public class Client implements Proxy {
 
 	@Override
 	public void registerItemRenderer(Item item, int meta, String ID) {
-
-	}
-
-	@Override
-	public void registerItemRenderer(Item[] items, String ID) {
-
+		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), ID));
 	}
 
 	@Override

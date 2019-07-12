@@ -15,13 +15,13 @@ public class Main {
 
 	EventHandler eventHandler = new EventHandler();
 
-	public static Blocks BLOCKS_REGISTRY;
-	public static Items ITEMS_REGISTRY;
+	public static Blocks BLOCKS_REGISTRY = new Blocks();
+	public static Items ITEMS_REGISTRY = new Items();
 
 	@Mod.Instance
 	public static Main instance;
 
-	@SidedProxy(clientSide = "com.bteteam.proxy.client.Client", serverSide = "com.bteteam.proxy.server.Server")
+	@SidedProxy(clientSide = "com.bteteam.bte.proxy.client.Client", serverSide = "com.bteteam.bte.proxy.server.Server")
 	public static Proxy proxy;
 
 

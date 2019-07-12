@@ -10,8 +10,6 @@ public interface Proxy {
 
 	void registerItemRenderer(Item item, int meta, String ID);
 
-	void registerItemRenderer(Item[] items, String ID);
-
 	void registerTileEntities();
 
 	void preInit();

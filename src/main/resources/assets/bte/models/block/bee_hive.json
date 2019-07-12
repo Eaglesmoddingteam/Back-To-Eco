@@ -1,0 +1,13 @@
+{
+    "parent":"block/cube_all",
+    "textures":{
+        "down":"bte:blocks/hive_bottom",
+        "up":"bte:blocks/hive_top",
+        "north":"bte:blocks/hive_side",
+        "east":"bte:blocks/hive_side",
+        "west":"bte:blocks/hive_side",
+        "south":"bte:blocks/hive_side",
+        "particle":"bte:blocks/hive_side"
+    }
+
+}

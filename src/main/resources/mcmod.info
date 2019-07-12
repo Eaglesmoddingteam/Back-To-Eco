@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "bte",
+  "name": "Back to Eco",
+  "description": "A mod focused on debunking tech mods, because there are way too many of those",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Tebreca", "Kjmaster", "Igrek"],
+  "credits": "Igrek for the art, Tebreca and Kjmaster for the coding",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

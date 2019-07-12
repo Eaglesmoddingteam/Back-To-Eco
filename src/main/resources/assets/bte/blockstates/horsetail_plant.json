@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures" : {
+            "cross":"bte:plants/horsetail_plant"
+        },
+        "model": "cross"
+    },
+    "variants": {
+        "normal": [{ 
+        }]
+    }
+}

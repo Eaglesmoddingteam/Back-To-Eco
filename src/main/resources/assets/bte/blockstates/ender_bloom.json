@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures" : {
+            "cross":"bte:plants/ender_bloom"
+        },
+        "model": "cross"
+    },
+    "variants": {
+        "normal": [{ 
+        }]
+    }
+}

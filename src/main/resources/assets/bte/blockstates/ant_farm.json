@@ -1,0 +1,10 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "bte:ant_farm"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

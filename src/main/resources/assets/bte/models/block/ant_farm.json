@@ -1,0 +1,13 @@
+{
+    "parent":"block/cube_all",
+    "textures":{
+        "down":"bte:blocks/ant_farm_bottom",
+        "up":"bte:blocks/ant_farm_top",
+        "north":"bte:blocks/ant_farm_side",
+        "east":"bte:blocks/ant_farm_side",
+        "west":"bte:blocks/ant_farm_side",
+        "south":"bte:blocks/ant_farm_side",
+        "particle":"bte:blocks/ant_farm_side"
+    }
+
+}

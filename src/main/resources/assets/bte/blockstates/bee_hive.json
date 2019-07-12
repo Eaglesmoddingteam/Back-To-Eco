@@ -1,0 +1,10 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "bte:bee_hive"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

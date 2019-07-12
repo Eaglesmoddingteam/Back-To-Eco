@@ -1,0 +1,19 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all",
+        "textures":{
+            "down":"bte:blocks/beetle_nest_bottom",
+            "up":"bte:blocks/beetle_nest_top",
+            "north":"bte:blocks/beetle_nest_side",
+            "east":"bte:blocks/beetle_nest_side",
+            "west":"bte:blocks/beetle_nest_side",
+            "south":"bte:blocks/beetle_nest_side",
+            "particle":"bte:blocks/beetle_nest_side"
+        }
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}
