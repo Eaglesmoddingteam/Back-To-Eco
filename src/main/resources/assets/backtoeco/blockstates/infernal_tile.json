@@ -1,0 +1,16 @@
+{
+  "defaults": {
+    "model": "backtoeco:block/infernal_tile_0"
+  },
+  "variants": {
+    "state=0": {
+      "model": "backtoeco:block/infernal_tile_0"
+    },
+    "state=1": {
+      "model": "backtoeco:block/infernal_tile_1"
+    },
+    "state=2": {
+      "model": "backtoeco:block/infernal_tile_2"
+    }
+  }
+}
