@@ -15,5 +15,6 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: 
-         sudo apt-get update && sudo apt-get install --yes gradle &&
+         sudo curl -s "https://get.sdkman.io" | bash &&
+         sudo sdk install gradle 5.0
          sudo gradle assemble testClasses test sonarqube
