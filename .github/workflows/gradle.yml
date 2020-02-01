@@ -16,7 +16,7 @@ jobs:
     - name: Build with Gradle
       run: 
          sudo curl -s "https://get.sdkman.io" | bash &&
-         sudo source "/home/runner/.sdkman/bin/sdkman-init.sh" &&
+         sudo ./home/runner/.sdkman/bin/sdkman-init.sh &&
          sudo sdk help &&
          sudo sdk install gradle 5.0 &&
          sudo gradle assemble testClasses test sonarqube
