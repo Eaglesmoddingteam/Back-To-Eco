@@ -2,7 +2,7 @@ package com.bteteam.bte.entity;
 
 import com.bteteam.bte.blocks.PigeonPostBlock;
 import com.bteteam.bte.world.PigeonPosts;
-import com.sun.istack.internal.NotNull;
+import javax.annotation.Nonnull;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.RandomPositionGenerator;
@@ -162,11 +162,11 @@ public class PigeonEntity extends CreatureEntity {
 			return instace;
 		}
 
-		protected void set(@NotNull PlayerEntity entity) {
+		protected void set(@Nonnull PlayerEntity entity) {
 			this.playerEntity = Optional.of(entity);
 		}
 
-		protected void set(@NotNull BlockPos pos) {
+		protected void set(@Nonnull BlockPos pos) {
 			this.blockPos = Optional.of(pos);
 		}
 
